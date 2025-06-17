@@ -3,8 +3,8 @@ import { orders } from "./Order.js";
 import { updateCart } from "../data/cart.js";
 
 
-window.addEventListener('DOMContentLoaded', async ()=>{
-await loadProductFetch();
+ async function trackingPage() {
+  await loadProductFetch();
 
 // Get query parameters
 const urlParams = new URLSearchParams(window.location.search);
@@ -56,4 +56,6 @@ const trackingHTML = `
 
 document.querySelector(".js-main").innerHTML = trackingHTML;
 updateCart();
-})
+ } 
+ trackingPage();
+
