@@ -1,39 +1,21 @@
-import { getProduct, loadProductFetch } from "../data/products.js";
-import { updateCart } from "../data/cart.js";
-
-// Load orders from localStorage
-export const orders = JSON.parse(localStorage.getItem('order')) || [];
-
-function generateId() {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-}
-
-// Add new order to storage
-export function addOrder(order) {
-   order.id = generateId();
-  orders.unshift(order);
-  saveOrders();
-}
-
-function saveOrders() {
-  localStorage.setItem('order', JSON.stringify(orders));
-}
-
-function calculateOrderTotal(order) {
-  let total = 0;
-  order.items.forEach(item => {
-    const product = getProduct(item.productId);
-    if (product) {
-      total += product.priceCents * item.quantity;
-    }
-  });
-  return (total / 100).toFixed(2); // format as dollars
-}
+import { getProduct} from "../data/products.js";
+import { cart } from "../data/cart-class.js";
+import {orders, calculateOrderTotal, clearOrders} from '../data/Orders/orders-shorts.js';
+import { showToast } from "../data/toast.js";
 
 
+renderOrderPage();
 // Renders order page
 function renderOrderPage() {
+let ClearOrders = document.getElementById('remove-orders');
 
+if (orders.length === 0) {
+  document.querySelector('.js-order-container').innerHTML =`
+  <div class = "no-orders">🛒 No orders <a class = "shop-link" href = "amazon.html">Go Shopping</a></div>
+  `;
+  ClearOrders.style.opacity = 0;
+  return;
+}
   
  
   let orderSummaryDate = '';
@@ -41,10 +23,7 @@ function renderOrderPage() {
   
 
   orders.forEach(order => {
-   if (orders.length === 0) {
-    orderSummary = `<p>No orders yet.</p>`;
-  }
-
+   
    let orderSummary =`
            <div class="order-block">
      <div class="order-header">
@@ -106,9 +85,9 @@ const orderContainer = document.querySelector('.js-order-container');
 if (orderContainer) {
   orderContainer.innerHTML = orderSummaryDate;
 } else {
-  console.error('❌ .js-order-container not found in DOM');
+  showToast('❌ .js-order-container not found in DOM');
 }
-updateCart();
+cart.updateCart();
 
 
 document.addEventListener('click', (button) => {
@@ -119,46 +98,21 @@ document.addEventListener('click', (button) => {
   const product = getProduct(productId);
 
   if (!product) {
-    console.error(`❌ Product with ID ${productId} not found`);
+    showToast(`❌ Product with ID ${productId} not found`);
     return;
   }
 
-  // Create the item you want to add
-  const cartItem = {
-    productId: product.id,
-    quantity: 1
-  };
+  cart.cartQuantityScore(productId);
 
-  // Load existing cart or start new
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-  // Check if already in cart
-  const existingItem = cart.find(item => item.productId === product.id);
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    cart.push(cartItem);
-  }
-
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCart(); // update cart badge or UI
-
-  alert(`${product.name} added to cart.`);
+  showToast(`${product.name} added to cart. 🛒`);
 });
-
+ClearOrders.addEventListener('click', ()=>{
+  clearOrders();
+  showToast('Orders removed ❌');
+    location.reload();
+});
   }
   
+  
 
-// Wait until products are loaded
-window.addEventListener('DOMContentLoaded', () => {
-  loadProductFetch().then(() => {
-    const orderContainer = document.querySelector('.js-order-container');
-    if (orderContainer) {
-      renderOrderPage(); // ✅ only runs if the container exists
-      updateCart();
-    } else {
-      console.log('⏭ Skipping renderOrderPage — container not found on this page.');
-    }
-  });
-});
 
