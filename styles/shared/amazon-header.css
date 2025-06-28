@@ -11,11 +11,12 @@
   justify-content: space-between;
 
   position: fixed;
+  z-index: 9999;
   top: 0;
   left: 0;
   right: 0;
   height: 60px;
-  z-index: 10000;
+  
 }
 
 .amazon-header-left-section {
