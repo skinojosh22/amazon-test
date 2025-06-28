@@ -15,7 +15,7 @@
   left: 0;
   right: 0;
   height: 60px;
-  z-index: 500;
+  z-index: 10000;
 }
 
 .amazon-header-left-section {
