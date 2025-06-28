@@ -1,10 +1,8 @@
-import { getProduct, loadProductFetch } from "../data/products.js";
-import { orders } from "./Order.js";
+import { getProduct} from "../data/products.js";
+import { orders } from "../data/Orders/orders-shorts.js";
 import { updateCart } from "../data/cart.js";
 
-
- async function trackingPage() {
-  await loadProductFetch();
+ function trackingPage() {
 
 // Get query parameters
 const urlParams = new URLSearchParams(window.location.search);
@@ -44,7 +42,7 @@ const trackingHTML = `
 
     <div class="progress-labels-container">
       <div class="progress-label">Preparing</div>
-      <div class="progress-label current-status">Shipped</div>
+      <div class="progress-label">Shipped</div>
       <div class="progress-label">Delivered</div>
     </div>
 
@@ -58,4 +56,25 @@ document.querySelector(".js-main").innerHTML = trackingHTML;
 updateCart();
  } 
  trackingPage();
+ 
+ 
+ const label = document.querySelectorAll('.progress-label');
+ const progressBar = document.querySelector('.progress-bar');
+ 
+ const progressStages = [0, 50, 100]
+let stage = 0;
 
+function updateProgress() {
+  label.forEach((label)=>label.classList.remove('active'))
+  
+  if (label[stage]) {
+    label[stage].classList.add('active')
+  }
+  progressBar.style.width = `${progressStages[stage]}%`;
+
+stage++;
+if (stage<progressStages.length) {
+  setTimeout(updateProgress, 5000)
+}
+}
+updateProgress();
