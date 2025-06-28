@@ -1,14 +1,21 @@
-//import { cart, RemoveCartItem, updateCart, changeCheckoutValue, updateDeliveryOption} from "../cart.js";
-import { products, getProduct } from "../products.js";
+import { getProduct } from "../products.js";
 import { deliveryOptions, getDeliveryId } from "./deliveryOption.js";
 import { businessDays } from "../Utils/BussinessDays.js";
 import { formatPrice } from "../Utils/money.js";
 import { paymentSummaryHTML } from "./PaymentSummary.js";
 import { cart } from "../cart-class.js";
+import { showToast } from "../toast.js";
 
 
 export function orderSummaryHTML() {
   let orderSummary ='';
+  
+if (cart.cartItems.length === 0) {
+  document.querySelector('.js-order-summary').innerHTML = `
+  <div>Cart is empty. <a href="amazon.html">Go to shop</a></div>
+  `;
+  return;
+}
 
 cart.cartItems.forEach((cartItem)=>{
 
@@ -100,7 +107,9 @@ function deliveryOptionHTML(matchProduct, cartItem) {
 
 return html;
 }
+
 document.querySelector('.js-order-summary').innerHTML = orderSummary;
+
 document.querySelectorAll('.js-delivery-option').forEach((element)=>{
   element.addEventListener('click', ()=>{
     const {productId, deliveryOptionId} = element.dataset;
@@ -142,7 +151,7 @@ document.querySelectorAll('.js-save-link').forEach((link)=>{
     orderSummaryHTML();
     paymentSummaryHTML();
    } else {
-    alert("Please enter a valid number between 1 - 100")
+    showToast("Please enter a valid number between 1 - 100")
    }
   })
 });
