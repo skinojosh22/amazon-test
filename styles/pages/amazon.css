@@ -76,6 +76,8 @@
 
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .product-image-container {
@@ -157,4 +159,41 @@
   width: 100%;
   padding: 8px;
   border-radius: 50px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: gray;
+  margin-top: 2rem;
+}
+
+.wishlist{
+  width: 50px;
+  height: 25px;
+  position: absolute;
+  right: 20px;
+  bottom: 100px;
+}
+.second-header{
+  background-color: rgb(202, 202, 202);
+  height: 50px;
+  align-content: center;
+  margin-bottom: 5px;
+}
+.wishlist-link{
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.wishlist-header{
+   height: 40px;
+   width: 70px;
+   margin-left: 8px;
+    border-radius: 2px;
+    align-content: center;
+}
+.wishlist-link:hover{
+ color: rgb(255, 70, 70);
+ font-size: 18px;
 }
