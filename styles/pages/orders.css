@@ -219,3 +219,23 @@
     padding: 12px;
   }
 }
+
+.shop-link{
+  text-decoration: none;
+}
+
+.no-orders{
+  font-size: larger;
+}
+
+#remove-orders{
+ height: 40px;
+ border-radius: 10px;
+ border: none;
+ box-shadow: 4px 4px 4px rgb(103, 103, 103);
+}
+#remove-orders:hover{
+  box-shadow: 4px 4px 2px gray;
+  background-color: rgb(192, 192, 192);
+  font-size: 14px;
+}
