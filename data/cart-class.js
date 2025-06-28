@@ -54,7 +54,9 @@ this.updateCart();
 cartQuantityScore(productId) {
    const selectQuantity = document.querySelector(`.js-selector[data-product-id="${productId}"]`);
  
-   const quantity = Number(selectQuantity.value)||1;
+   //const quantity = Number(selectQuantity.value)||1;
+   const quantity = selectQuantity ? Number(selectQuantity.value) || 1 : 1;
+
  
    let matchingItem = this.cartItems.find((item)=> item.productId === productId);
        if (matchingItem) {
@@ -90,6 +92,8 @@ cartQuantityScore(productId) {
      removeCart(){
       localStorage.removeItem('cart')
      }
+     
+
 }
 
 export const cart = new Cart('cart');
