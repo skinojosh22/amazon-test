@@ -49,7 +49,7 @@ LocalStorage API
 
 🚀 Live Demo
 
-👉 Try the Project Live
+[Try the Live Demo](https://skinojosh22.github.io/amazon-test/amazon.html)
 
 
 ---
